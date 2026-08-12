@@ -52,8 +52,8 @@
                       (aref dest (+ di 2)) (logior #b10000000 (logand code #x3f)))
                 (incf di 3))
                (t
-                (when (> code #x10FFFF)
-                  (error 'utf8-code-point-out-of-range :code-point code))
+                ;; (when (> code #x10FFFF)
+                ;;   (error 'utf8-code-point-out-of-range :code-point code))
                 (setf (aref dest di)       (logior #b11110000 (ash code -18))
                       (aref dest (+ di 1)) (logior #b10000000 (logand (ash code -12) #x3f))
                       (aref dest (+ di 2)) (logior #b10000000 (logand (ash code -6) #x3f))
@@ -151,10 +151,10 @@
                (when (> (+ i n) end) (fail)))
              (store (code)
                (let ((char (code-char code)))
-                 (unless char
-                   (error 'utf8-unrepresentable-character
-                          :index i
-                          :code-point code))
+                 ;; (unless char
+                 ;;   (error 'utf8-unrepresentable-character
+                 ;;          :index i
+                 ;;          :code-point code))
                  (setf (char dest di) char)
                  (incf di))))
       (loop while (< i end)
