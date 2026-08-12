@@ -1,0 +1,37 @@
+#+CAPTION: Lisp alien propaganda
+#+NAME:    fig:lisp-alien
+[[https://www.lisperati.com/lisplogo_fancy_256.png]]
+
+* Reckless UTF-8
+A small set of tools for encoding and decoding Unicode text in the UTF-8 form.
+You can fill an octet buffer you already hold with the bytes of a string, or fill
+a string buffer you already hold with the characters taken from a run of octets.
+
+Validation of octets is done in place. No new storage is made on the heap. Bound
+errors and ill-formed sequences are signalled by named conditions of their own.
+
+* Why a new library
+~trivial-utf-8~ does not keep to the full Unicode standard; over-long forms and other
+bad shapes slip through. ~babel~ is sound in its checks, yet on every decode it must
+give back a fresh string. That puts strain on the garbage collector. In SBCL and
+LispWorks the GC stops the world. Allegro alone among the common systems has ZGC.
+So for real-time string-heavy work, we need an GC-light alternative.
+
+* Usage Example
+
+#+BEGIN_SRC lisp
+(let* ((s "café 𝄞")
+       (n (utf8-byte-length s))
+       (octets (make-array n :element-type '(unsigned-byte 8))))
+  (utf8-encode-into s octets)
+  ;; octets now holds the strict UTF-8 bytes
+  (assert (utf8-valid-p octets))
+  (let ((out (make-string (length s))))
+    (utf8-decode-into octets out)
+    (assert (string= s out))))
+#+END_SRC
+
+** License
+
+BSD 2-clause.
+
