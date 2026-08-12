@@ -14,9 +14,22 @@ errors and ill-formed sequences are signalled by named conditions of their own.
 * Why a new library
 ~trivial-utf-8~ does not keep to the full Unicode standard; over-long forms and other
 bad shapes slip through. ~babel~ is sound in its checks, yet on every decode it must
-give back a fresh string. That puts strain on the garbage collector. In SBCL and
-LispWorks the GC stops the world. Allegro alone among the common systems has ZGC.
-So for real-time string-heavy work, we need an GC-light alternative.
+give back a fresh string. That puts strain on the garbage collector. There aren't any
+alternatives that conforms to the RFC 3629.
+
+That Babel returns fresh strings sound trivial in many case, but in my system I have
+measured in my web socket code (using the library ~wscli~) that about 8% of all my GC
+garbage come from Babel. SBCL and LispWorks the GC stops the world, and each stop can
+be about 50ms, which is unacceptable for many real-time work. By using reckless-utf8
+instead I shaved off about 4 ms almost for free.
+
+Allegro alone among the common systems has ZGC, but vendor lock-in is never nice. So
+for real-time string-heavy work, at the time of writing, ~reckless-utf8~ is the only
+usable alternative.
+
+* Conformance
+~reckless-utf8~ tries to conform to RFC-3629 as strictly as possible. Any violation is
+a bug and should be reported.
 
 * Usage Example
 
