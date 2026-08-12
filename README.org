@@ -3,7 +3,8 @@
 [[https://www.lisperati.com/lisplogo_fancy_256.png]]
 
 * Reckless UTF-8
-A small set of tools for encoding and decoding Unicode text in the UTF-8 form.
+Encoding and decoding UTF-8 without memory allocation.
+
 You can fill an octet buffer you already hold with the bytes of a string, or fill
 a string buffer you already hold with the characters taken from a run of octets.
 
