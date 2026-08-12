@@ -9,7 +9,7 @@
 
 (defun utf8-byte-length (string &key (start 0) end)
   "Number of UTF-8 octets needed for STRING[START..END)."
-  (declare (type simple-string string)
+  (declare (type string string)
            (type array-index start)
            (type (or null array-index) end))
   (let ((end (or end (length string)))
@@ -24,7 +24,7 @@
     n))
 
 (defun utf8-encode-into (string dest &key (start 0) end (dest-start 0))
-  (declare (type simple-string string)
+  (declare (type string string)
            (type octet-vector dest)
            (type array-index start dest-start)
            (type (or null array-index) end))
@@ -136,7 +136,7 @@
 
 (defun utf8-decode-into (octets dest &key (start 0) end (dest-start 0))
   (declare (type octet-vector octets)
-           (type simple-string dest)
+           (type string dest)
            (type array-index start dest-start)
            (type (or null array-index) end))
   (when (or (minusp start) (and end (minusp end)) (and end (not (<= start end))))
