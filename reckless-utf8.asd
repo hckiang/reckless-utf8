@@ -1,6 +1,6 @@
 (defsystem "reckless-utf8"
   :description "GC-friendly UTF8 encoder/decoder"
-  :version "0.9.10"
+  :version "0.9.11"
   :author "Woodrow Hao Chi Kiang"
   :license "BSD-2-Clause"
   :depends-on ("uiop" "serapeum")

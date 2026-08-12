@@ -16,7 +16,7 @@
         (n 0))
     (declare (type array-index end n))
     (loop for i from start below end
-          for c of-type code-point = (char-code (schar string i))
+          for c of-type code-point = (char-code (char string i))
           do (incf n (cond ((< c #x80) 1)
                            ((< c #x800) 2)
                            ((< c #x10000) 3)
@@ -34,7 +34,7 @@
         (di dest-start))
     (declare (type array-index end di))
     (loop for i from start below end
-          for code of-type code-point = (char-code (schar string i))
+          for code of-type code-point = (char-code (char string i))
           do (cond
                ((< code #x80)
                 (setf (aref dest di) code)
@@ -155,7 +155,7 @@
                    (error 'utf8-unrepresentable-character
                           :index i
                           :code-point code))
-                 (setf (schar dest di) char)
+                 (setf (char dest di) char)
                  (incf di))))
       (loop while (< i end)
             do (let ((b0 (aref octets i)))
